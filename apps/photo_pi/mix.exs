@@ -20,6 +20,7 @@ defmodule PhotoPi.Mixfile do
   end
 
   defp deps do
-    [{:porcelain, "~> 2.0"}]
+    [{:porcelain, "~> 2.0"},
+     {:bot, in_umbrella: true}]
   end
 end
