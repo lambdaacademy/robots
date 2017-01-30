@@ -51,13 +51,27 @@
 9. Talk to the Bot:
    
    ```
-   [12:33:31] <user1> test_bot help
-   [12:33:31] <test_bot> test_bot help - Displays all of the help commands that test_bot knows about.
+   <user1> test_bot help
+   <test_bot> test_bot help - Displays all of the help commands that test_bot knows about.
    test_bot help <query> - Displays all help commands that match <query>.
    test_bot: ping - Responds with 'pong'
-   [12:33:35] <user1> test_bot ping
-   [12:33:35] <test_bot> user1: pong
+   test_bot: actions - Lists available actions provided by this bot
+   test_bot: action <action_id> - Performs an action provided by this bot
+   <user1> test_bot actions
+   <test_bot> user1: Here are the actions you can perform:
+   Action id: action1	Desription: desc1
+   Action id: action2	Desription: desc2
+   Key in `test_bot action <action_id>` to perform the action.
+   <user1> test_bot action action1
+   <test_bot> user1: running action
    ```
    
+   The `actions` and `action ID` commands are provided by the `Bot.Service.Responder`
+   which delegates to a service through its callback:
+   
+   ```elixir
+   config :bot, Bot.Service,
+   callback: Bot.Service.Mock
+   ```
    
 
