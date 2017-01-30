@@ -5,3 +5,5 @@ if Mix.env in [:prod, :dev, :test] do
 else
   import_config "#{Mix.env}.exs"
 end
+
+import_config "secrets.exs"

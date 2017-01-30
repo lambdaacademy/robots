@@ -21,6 +21,7 @@ defmodule PhotoPi.Mixfile do
 
   defp deps do
     [{:porcelain, "~> 2.0"},
+     {:extwitter, "~> 0.8"},
      {:bot, in_umbrella: true}]
   end
 end

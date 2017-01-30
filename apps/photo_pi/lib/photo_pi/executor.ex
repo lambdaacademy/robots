@@ -3,8 +3,8 @@ defmodule PhotoPi.Executor do
 
   use GenServer
 
-  @action_ids ["1"]
-  @actions [{"1", "Take a photo"}]
+  @action_ids ["1", "2"]
+  @actions [{"1", "Take a photo"}, {"2", "Take a photo and post it on Twitter"}]
 
   require Logger
 
@@ -35,5 +35,11 @@ defmodule PhotoPi.Executor do
   def handle_action("1") do
     path = PhotoPi.Camera.take_photo()
     Logger.debug(path)
+  end
+
+  def handle_action("2") do
+    path = PhotoPi.Camera.take_photo()
+    Process.sleep(2_000)
+    PhotoPi.Twitter.post_status_with_image(path)
   end
 end

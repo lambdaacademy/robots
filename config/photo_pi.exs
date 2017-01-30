@@ -18,3 +18,6 @@ config :porcelain,
 
 config :bot, Bot.Service,
   callback: PhotoPi
+
+config :photo_pi, PhotoPi.Twitter,
+  status_message: "New photo from lambdadays bot"
