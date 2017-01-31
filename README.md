@@ -74,4 +74,13 @@
    callback: Bot.Service.Mock
    ```
    
+## Creating a Service
 
+To implement a service one has to create an umbrella application in the `apps` and implement
+the `Bot.Service` behaviour. Then the module fulfilling that behaviour has to be pointed to
+in the configuration:
+
+```elixir
+config :bot, Bot.Service,
+  callback: MyService.API
+```
