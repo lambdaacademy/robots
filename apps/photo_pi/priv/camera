@@ -1,0 +1,15 @@
+#!/usr/bin/python3
+
+from picamera import PiCamera
+from time import sleep
+
+try:
+    camera = PiCamera()
+    camera.resolution = (1920, 1080)
+    camera.start_preview()
+    sleep(2)
+    while(True):
+        filename = input()
+        camera.capture(filename)
+except (KeyboardInterrupt, EOFError) as e:
+    print("Camera off")
