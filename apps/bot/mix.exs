@@ -22,4 +22,5 @@ defmodule Bot.Mixfile do
   defp deps do
     [{:hedwig_xmpp, "~> 1.0"}]
   end
+
 end
