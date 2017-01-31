@@ -51,6 +51,7 @@ defmodule MusicPi.Player do
 
   def handle_cast({:run_action, 0}, state) do
     if !is_nil(state.player_pid) do
+      Porcelain.Process.send_input(state.player_pid, "q")
       Porcelain.Process.stop(state.player_pid)
     end
     {:noreply, %Data{state | player_pid: nil}}
@@ -82,6 +83,7 @@ defmodule MusicPi.Player do
     song_path = Path.join(state.songs_path, song)
     cmd = get_player_command(state, song_path)
     if !is_nil(state.player_pid) do
+      Porcelain.Process.send_input(state.player_pid, "q")
       Porcelain.Process.stop(state.player_pid)
     end
     player_pid = Porcelain.spawn_shell(cmd, out: {:send, self()})
