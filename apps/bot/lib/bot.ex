@@ -1,18 +1,6 @@
-defmodule PhotoChatbot do
+defmodule Bot do
   @moduledoc """
-  Documentation for PhotoChatbot.
+  Documentation for Bot.
   """
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> PhotoChatbot.hello
-      :world
-
-  """
-  def hello do
-    :world
-  end
 end
