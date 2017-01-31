@@ -1,5 +1,5 @@
 defmodule Bot.Service do
-  @doc "Defines a behaviour for the Service callback module"
+  @moduledoc "Defines a behaviour for the Service callback module"
 
   @type action_id :: String.t
   @type action_description :: String.t
