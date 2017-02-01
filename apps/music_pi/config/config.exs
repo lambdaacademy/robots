@@ -3,4 +3,4 @@
 use Mix.Config
 
 config :music_pi,
-  music_path: "/home/music"
+  songs_path: "/home/music"
