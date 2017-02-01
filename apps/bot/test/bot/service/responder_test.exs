@@ -57,5 +57,4 @@ defmodule Bot.Service.ResponderTest do
 
   defp invalid_action_id(), do: random_action_id() |> String.reverse()
   
-
 end

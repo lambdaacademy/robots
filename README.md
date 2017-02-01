@@ -136,3 +136,35 @@ config :bot, Bot.Service,
     ```
 
     > Use the instructions from the previous chapter to connect a `test_user` to the room.
+
+## Running the **Music-Pi** bot
+
+1. Start the MongooseIM server with `lambdadays.org` domain
+2. Register the `music_bot` and the sample user:
+
+    ```bash
+   _build/prod/rel/mongooseim/bin/mongooseimctl register music_bot lambdadays.org music_bot
+   _build/prod/rel/mongooseim/bin/mongooseimctl register test_user lambdadays.org test_user
+   ```
+3. Create the `music_room` in the server:
+
+   ```erlang
+   User = <<"user1">>.
+   Server = <<"lambdadays.org">>.
+   From = {jid, User, Server, <<"res">>, User, Server, <<"res">>}.
+   mod_muc:create_instant_room(Server, <<"music_room">>, From, <<"music">>, []).
+   ```
+
+4. Make sure that the configuration in the `config/music_pi.exs` is correct and start the bot:
+
+    ```bash
+    MIX_ENV=music_pi mix do deps.get, compile, run --no-halt
+    MIX_ENV=music_pi iex -S mix
+    ```
+5. Check who is in the room:
+
+    ```erlang
+    mod_muc_room:get_room_users(jid:from_binary(<<"music_room@muc.lambdadays.org">>)).
+    ```
+
+    > Use the instructions from the previous chapter to connect a `test_user` to the room.
