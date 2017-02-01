@@ -6,11 +6,11 @@
 2. Copy customized configuration files and build it:
 
    ```bash
-   cp mongooseim/vars.config MongooseIM/rel/
+   cp mongooseim/vars.config MongooseIM/rel/vars.config.in
    cp mongooseim/ejabberd.cfg MongooseIM/rel/files
    cd MongooseIM && make rel
    ```
-3. Add `lambdadays.org` as an alternative name for 172.0.0.1 in your `/etc/hosts`
+3. Add `lambdadays.org` as an alternative name for 127.0.0.1 in your `/etc/hosts`
 3. Start MongooseIM: `_build/prod/rel/mongooseim/bin/mongooseimctl live`
 4. Register accounts for the Bot (`test_bot`) and a sample user (`test_user`):
 
