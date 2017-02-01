@@ -6,8 +6,8 @@ defmodule MusicPi.Application do
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
 
-    musician = worker(MusicPi.Player, [])
-    Supervisor.start_link(musician, strategy: :one_for_one, name: MusicPi.Supervisor)
+    musician = [worker(MusicPi.Player, [])]
+    Supervisor.start_link(musician, [strategy: :one_for_one, name: MusicPi.Supervisor])
   end
 
 end

@@ -21,8 +21,8 @@ defmodule MusicPi.Player do
     end
   end
 
-  def start_link(opts) do
-    GenServer.start_link(__MODULE__, opts, [name: __MODULE__])
+  def start_link do
+    GenServer.start_link(__MODULE__, [], name: __MODULE__)
   end
 
   @spec actions :: [Bot.Service.action]
