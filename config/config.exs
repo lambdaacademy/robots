@@ -6,4 +6,6 @@ else
   import_config "#{Mix.env}.exs"
 end
 
-import_config "secrets.exs"
+if Mix.env != :music_pi do
+  import_config "secrets.exs"
+end
