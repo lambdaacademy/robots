@@ -166,3 +166,23 @@ config :bot, Bot.Service,
     ```
 
     > Use the instructions from the previous chapter to connect a `test_user` to the room.
+
+## Building artifacts
+
+### Photo-Pi
+
+`MIX_ENV=photo_pi mix release --name=photo_pi`
+
+And then run with:  
+
+`_build/dev/rel/photo_pi/bin/photo_pi console`
+
+> The `config/secrets.exs` has to be set appropriately.
+
+### Music-Pi
+
+`MIX_ENV=music_pi mix release --name=music_pi`
+
+And then run with:  
+
+`_build/dev/rel/music_pi/bin/musci_pi console`
