@@ -107,7 +107,6 @@ config :bot, Bot.Service,
 
     ```bash
     MIX_ENV=photo_pi mix do deps.get, compile, run --no-halt
-    MIX_ENV=photo_pi iex -S mix
     ```
 
 5. Make sure that Twitter API access tokens are configured in `config/secrets.exs` file
@@ -159,7 +158,6 @@ config :bot, Bot.Service,
 
     ```bash
     MIX_ENV=music_pi mix do deps.get, compile, run --no-halt
-    MIX_ENV=music_pi iex -S mix
     ```
 5. Check who is in the room:
 

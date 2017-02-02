@@ -33,7 +33,10 @@ defmodule MusicPi.Player do
   @spec run_action(Bot.Service.action_id) :: Bot.Service.action_run_result
   def run_action(id) do
     GenServer.cast(__MODULE__, {:run_action, id})
-    {:ok, "Wait for song..."}
+    case id do
+      "0" -> {:ok, "Song will be stopped"}
+      _ -> {:ok, "Wait for song..."}
+    end
   end
 
   ## Callbacks
