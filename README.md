@@ -10,23 +10,23 @@
    cp mongooseim/ejabberd.cfg MongooseIM/rel/files
    cd MongooseIM && make rel
    ```
-3. Add `lambdadays.org` as an alternative name for 127.0.0.1 in your `/etc/hosts`
+3. Add `xmpp.lambdadays.org` as an alternative name for 127.0.0.1 in your `/etc/hosts`
 3. Start MongooseIM: `_build/prod/rel/mongooseim/bin/mongooseimctl live`
 4. Register accounts for the Bot (`test_bot`) and a sample user (`test_user`):
 
    > Run the commands from the MongooseIM directory
 
    ```bash
-   _build/prod/rel/mongooseim/bin/mongooseimctl register test_user lambdadays.org test_user
-   _build/prod/rel/mongooseim/bin/mongooseimctl register test_bot lambdadays.org test_bot
+   _build/prod/rel/mongooseim/bin/mongooseimctl register test_user xmpp.lambdadays.org test_user
+   _build/prod/rel/mongooseim/bin/mongooseimctl register test_bot xmpp.lambdadays.org test_bot
    ```
 
 5. Create a test MUC room (`test_room`) in MongooseIM:
    ```erlang
    User = <<"user1">>.
-   Server = <<"lambdadays.org">>.
+   Server = <<"xmpp.lambdadays.org">>.
    From = {jid, User, Server, <<"res">>, User, Server, <<"res">>}.
-   mod_muc:create_instant_room(Server, <<"test_room">>, From, <<"foto">>, []).
+   mod_muc:create_instant_room(Server, <<"test_room">>, From, <<"photo">>, []).
    ```
    > You can verify that the room was created with `ets:tab2list(muc_online_room).`
 6. Start the Bot
@@ -39,11 +39,11 @@
 7. Check that the Bot is connectd to the `test_room`:
 
    ```erlang
-   mod_muc_room:get_room_users(jid:from_binary(<<"test_room@muc.lambdadays.org">>)).
+   mod_muc_room:get_room_users(jid:from_binary(<<"test_room@muc.xmpp.lambdadays.org">>)).
    ```
 8. Connect the sample user to the room using the [PSI] client.
    * General -> Join Groupchat
-   * Host: `muc.lambdadays.org`
+   * Host: `muc.xmpp.lambdadays.org`
    * Room: `test_room`
    * Nickname: `user1`
    * Password: (empty)
@@ -87,18 +87,18 @@ config :bot, Bot.Service,
 
 ## Running the **Photo-Pi** bot
 
-1. Start the MongooseIM server with `lambdadays.org` domain
+1. Start the MongooseIM server with `xmpp.lambdadays.org` domain
 2. Register the `photo_bot` and the sample user:
 
     ```bash
-   _build/prod/rel/mongooseim/bin/mongooseimctl register photo_bot lambdadays.org photo_bot
-   _build/prod/rel/mongooseim/bin/mongooseimctl register test_user lambdadays.org test_user
+   _build/prod/rel/mongooseim/bin/mongooseimctl register photo_bot xmpp.lambdadays.org photo_bot
+   _build/prod/rel/mongooseim/bin/mongooseimctl register test_user xmpp.lambdadays.org test_user
    ```
 3. Create the `photo_room` in the server:
 
    ```erlang
    User = <<"user1">>.
-   Server = <<"lambdadays.org">>.
+   Server = <<"xmpp.lambdadays.org">>.
    From = {jid, User, Server, <<"res">>, User, Server, <<"res">>}.
    mod_muc:create_instant_room(Server, <<"photo_room">>, From, <<"foto">>, []).
    ```
@@ -131,25 +131,25 @@ config :bot, Bot.Service,
 7. Check who is in the room:
 
     ```erlang
-    mod_muc_room:get_room_users(jid:from_binary(<<"photo_room@muc.lambdadays.org">>)).
+    mod_muc_room:get_room_users(jid:from_binary(<<"photo_room@muc.xmpp.lambdadays.org">>)).
     ```
 
     > Use the instructions from the previous chapter to connect a `test_user` to the room.
 
 ## Running the **Music-Pi** bot
 
-1. Start the MongooseIM server with `lambdadays.org` domain
+1. Start the MongooseIM server with `xmpp.lambdadays.org` domain
 2. Register the `music_bot` and the sample user:
 
     ```bash
-   _build/prod/rel/mongooseim/bin/mongooseimctl register music_bot lambdadays.org music_bot
-   _build/prod/rel/mongooseim/bin/mongooseimctl register test_user lambdadays.org test_user
+   _build/prod/rel/mongooseim/bin/mongooseimctl register music_bot xmpp.lambdadays.org music_bot
+   _build/prod/rel/mongooseim/bin/mongooseimctl register test_user xmpp.lambdadays.org test_user
    ```
 3. Create the `music_room` in the server:
 
    ```erlang
    User = <<"user1">>.
-   Server = <<"lambdadays.org">>.
+   Server = <<"xmpp.lambdadays.org">>.
    From = {jid, User, Server, <<"res">>, User, Server, <<"res">>}.
    mod_muc:create_instant_room(Server, <<"music_room">>, From, <<"music">>, []).
    ```
@@ -162,7 +162,7 @@ config :bot, Bot.Service,
 5. Check who is in the room:
 
     ```erlang
-    mod_muc_room:get_room_users(jid:from_binary(<<"music_room@muc.lambdadays.org">>)).
+    mod_muc_room:get_room_users(jid:from_binary(<<"music_room@muc.xmpp.lambdadays.org">>)).
     ```
 
     > Use the instructions from the previous chapter to connect a `test_user` to the room.

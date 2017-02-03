@@ -11,9 +11,9 @@ config :bot, Bot.Robot,
     {Hedwig.Responders.Ping, []},
     {Bot.Service.Responder, []}
   ],
-  jid: "music_bot@lambdadays.org",
+  jid: "music_bot@xmpp.lambdadays.org",
   password: "music_bot",
-  rooms: [{"music_room@muc.lambdadays.org", []}]
+  rooms: [{"music_room@muc.xmpp.lambdadays.org", []}]
 
 config :porcelain,
   driver: Porcelain.Driver.Basic

@@ -9,9 +9,9 @@ config :bot, Bot.Robot,
     {Hedwig.Responders.Ping, []},
     {Bot.Service.Responder, []}
   ],
-  jid: "photo_bot@lambdadays.org",
+  jid: "photo_bot@xmpp.lambdadays.org",
   password: "photo_bot",
-  rooms: [{"photo_room@muc.lambdadays.org", []}]
+  rooms: [{"photo_room@muc.xmpp.lambdadays.org", []}]
 
 config :porcelain,
   driver: Porcelain.Driver.Basic
