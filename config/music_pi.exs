@@ -19,4 +19,4 @@ config :bot, Bot.Service,
   callback: MusicPi
 
 config :music_pi,
-  songs_path: "/users/music"
+  songs_path: "/home/pi/music"

@@ -16,7 +16,7 @@ defmodule Bot.Service.Responder do
   """
   hear ~r/help\s*$/i, %Hedwig.Message{user: u} = msg do
     Logger.debug "Responding to 'help' requested by #{u.name}"
-    reply msg, on_actions()
+    reply msg, actions()
   end
 
   @usage """
@@ -30,23 +30,15 @@ defmodule Bot.Service.Responder do
 
   @doc false
   def format_action({action_id, action_desc}) do
-    "Action id: #{action_id}\tDesription: #{action_desc}"
+    "\nType \"#{action_id}\" to #{action_desc}"
   end
 
   # Internal functions
 
-  defp on_actions() do
-    """
-    Here are the actions you can perform:
-    #{actions()}
-    Key in `<action_id>` to perform the action.
-    """
-  end
-
   defp actions() do
     @service.actions()
     |> Enum.map(&format_action/1)
-    |> Enum.join("\n")
+    |> Enum.join("")
   end
 
   defp on_perform_action(action_id) do
@@ -54,9 +46,8 @@ defmodule Bot.Service.Responder do
       {:ok, response} -> response
       {:error, error} ->
         """
-        Failed to run action '#{action_id}': #{error}
-
-        #{on_actions()}
+        Couldn't run action \"#{action_id}\"
+        #{actions()}
         """
     end
   end

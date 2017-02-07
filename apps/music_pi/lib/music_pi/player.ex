@@ -8,15 +8,16 @@ defmodule MusicPi.Player do
 
   defmodule Data do
     @moduledoc false
-    defstruct [:songs_path, :player_exec, :player_opts, :player_pid]
-    
+    defstruct [:songs_path, :player_exec, :player_opts, :player_pid, :songs]
+
     @spec defaults :: %Data{}
     def defaults do
       %__MODULE__{
         songs_path: Application.get_env(:music_pi, :songs_path, :code.priv_dir(:music_pi)),
         player_exec: "omxplayer",
         player_opts: Application.get_env(:music_pi, :player_opts, "-o local"),
-        player_pid: nil
+        player_pid: nil,
+        songs: []
       }
     end
   end
@@ -32,38 +33,62 @@ defmodule MusicPi.Player do
 
   @spec run_action(Bot.Service.action_id) :: Bot.Service.action_run_result
   def run_action(id) do
-    GenServer.cast(__MODULE__, {:run_action, id})
-    case id do
-      "0" -> {:ok, "Song will be stopped"}
-      _ -> {:ok, "Wait for song..."}
+    case GenServer.call(__MODULE__, {:try_action, id}) do
+      {:ok, resp} ->
+        GenServer.cast(__MODULE__, {:run_action, id})
+        {:ok, resp}
+      :error ->
+        {:error, "Sorry, action is unavailable"}
     end
+  end
+
+  @spec refresh :: :ok
+  def refresh do
+    GenServer.cast(__MODULE__, :refresh)
   end
 
   ## Callbacks
   def init(_args) do
-    {:ok, Data.defaults}
+    state = Data.defaults
+    songs = refresh_songs(state.songs_path)
+    {:ok, %{state | songs: songs}}
   end
 
-  def handle_call(:actions, _from, state) do
-    songs = [{"0", "Stop music"}] ++ refresh_songs(state.songs_path)
-    {:reply, songs, state}
+  def handle_call(:actions, _from, %{songs: songs} = state) do
+    actions = [{"0", "stop music"} | songs |> songs_to_actions()]
+    {:reply, actions, state}
+  end
+  def handle_call({:try_action, "0"}, _from, state) do
+    {:reply, {:ok, "Stopping music"}, state}
+  end
+  def handle_call({:try_action, id}, _from, state) do
+    resp =
+      case Enum.find(state.songs, fn {s_id, _file} -> s_id == id end) do
+        nil -> :error
+        {id, file} -> {:ok, "Playing \"#{song_to_title(file)}\""}
+      end
+    {:reply, resp, state}
   end
 
   def handle_cast({:run_action, "0"}, state) do
-    maybe_stop_song(state) 
+    maybe_stop_song(state)
     {:noreply, %Data{state | player_pid: nil}}
   end
   def handle_cast({:run_action, id}, state) do
-    song = refresh_songs(state.songs_path)
+    song = state.songs
            |> get_song(id)
     case song do
       nil ->
         Logger.warn "Wrong action id"
         {:noreply, state}
       val ->
-        Logger.info "Playing #{val}"  
+        Logger.info "Playing #{val}"
         {:noreply, play_song(val, state)}
-    end 
+    end
+  end
+  def handle_cast(:refresh, state) do
+    songs = refresh_songs(state.songs_path)
+    {:noreply, %{state | songs: songs}}
   end
 
   def handle_info({pid, :result, _result}, state) do
@@ -78,7 +103,7 @@ defmodule MusicPi.Player do
   defp play_song(song, state) do
     song_path = Path.join(state.songs_path, song)
     cmd = get_player_command(state, song_path)
-    maybe_stop_song(state) 
+    maybe_stop_song(state)
     player_pid = Porcelain.spawn_shell(cmd, out: {:send, self()})
     %Data{state | player_pid: player_pid}
   end
@@ -95,6 +120,20 @@ defmodule MusicPi.Player do
           |> Enum.to_list
           |> Enum.map(&Integer.to_string/1)
     List.zip([ids, song_files])
+  end
+
+  @spec songs_to_actions([{String.t, String.t}]) :: [{String.t, String.t}]
+  defp songs_to_actions(songs) do
+    songs
+    |> Enum.map(fn {id, file} ->
+      title = song_to_title(file)
+      {id, "play \"#{title}\""}
+    end)
+  end
+
+  @spec song_to_title(String.t) :: String.t
+  defp song_to_title(song) do
+    song |> Path.rootname() |> String.split("_") |> Enum.join(" ")
   end
 
   @spec get_player_command(%Data{}, String.t) :: String.t
