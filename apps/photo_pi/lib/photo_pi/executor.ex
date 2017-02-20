@@ -4,7 +4,7 @@ defmodule PhotoPi.Executor do
   use GenServer
 
   @action_ids ["1", "2"]
-  @actions [{"1", "Take a photo"}, {"2", "Take a photo and post it on Twitter"}]
+  @actions [{"1", "take a photo"}, {"2", "take a photo and post it on Twitter"}]
 
   require Logger
 
@@ -14,7 +14,7 @@ defmodule PhotoPi.Executor do
   @spec run_action(Bot.Service.action_id) :: Bot.Service.action_run_result
   def run_action(action_id) when action_id in @action_ids do
     GenServer.cast(__MODULE__, {:run_action, action_id})
-    {:ok, "Action in progress"}
+    {:ok, "Taking a photo"}
   end
   def run_action(_), do: {:error, "Action unavailable"}
 
@@ -32,12 +32,12 @@ defmodule PhotoPi.Executor do
 
   ## Internals
 
-  def handle_action("1") do
+  defp handle_action("1") do
     path = PhotoPi.Camera.take_photo()
     Logger.debug(path)
   end
 
-  def handle_action("2") do
+  defp handle_action("2") do
     path = PhotoPi.Camera.take_photo()
     Process.sleep(2_000)
     PhotoPi.Twitter.post_status_with_image(path)

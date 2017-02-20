@@ -5,10 +5,7 @@ use Mix.Config
 config :bot, Bot.Robot,
   adapter: Hedwig.Adapters.XMPP,
   name: "music_bot",
-  aka: "/",
   responders: [
-    {Hedwig.Responders.Help, []},
-    {Hedwig.Responders.Ping, []},
     {Bot.Service.Responder, []}
   ],
   jid: "music_bot@xmpp.lambdadays.org",
@@ -22,4 +19,4 @@ config :bot, Bot.Service,
   callback: MusicPi
 
 config :music_pi,
-  songs_path: "/users/music"
+  songs_path: "/home/pi/music"

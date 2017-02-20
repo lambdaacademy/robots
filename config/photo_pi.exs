@@ -3,10 +3,7 @@ use Mix.Config
 config :bot, Bot.Robot,
   adapter: Hedwig.Adapters.XMPP,
   name: "photo_bot",
-  aka: "/",
   responders: [
-    {Hedwig.Responders.Help, []},
-    {Hedwig.Responders.Ping, []},
     {Bot.Service.Responder, []}
   ],
   jid: "photo_bot@xmpp.lambdadays.org",
